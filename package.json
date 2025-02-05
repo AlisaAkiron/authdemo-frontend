@@ -1,0 +1,39 @@
+{
+  "name": "authdemo-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@github/webauthn-json": "^2.1.1",
+    "clsx": "2.1.1",
+    "next": "15.1.6",
+    "next-themes": "0.4.4",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "tailwind-merge": "3.0.1"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "3.2.0",
+    "@ianvs/prettier-plugin-sort-imports": "4.4.1",
+    "@tailwindcss/postcss": "^4.0.3",
+    "@types/node": "22.13.1",
+    "@types/react": "19.0.8",
+    "@types/react-dom": "19.0.3",
+    "babel-plugin-react-compiler": "19.0.0-beta-b2e8e9c-20241220",
+    "daisyui": "5.0.0-beta.6",
+    "eslint": "9.19.0",
+    "eslint-config-next": "15.1.6",
+    "eslint-config-prettier": "10.0.1",
+    "eslint-plugin-prettier": "5.2.3",
+    "postcss": "8.5.1",
+    "prettier": "3.4.2",
+    "prettier-plugin-tailwindcss": "0.6.11",
+    "tailwindcss": "4.0.3",
+    "typescript": "5.7.3"
+  }
+}
