@@ -13,8 +13,8 @@ AuthDemo implements the following authentication methods:
 To be note that the following features have not been implemented:
 
 - All refresh token related logics
-- Check the experiation of the access token before sending
-- Many error handlings
+- Check the expiration of the access token before sending
+- Many error handling logics
 
 ## LICENSE
 
