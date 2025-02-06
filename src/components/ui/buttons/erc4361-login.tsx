@@ -10,7 +10,9 @@ import {
 
 const store = createStore()
 
-export const SIWEButton: FC = () => {
+export const Erc4361LoginButton: FC<{ className?: string }> = ({
+  className,
+}) => {
   const eip6963Providers = useSyncExternalStore(
     store.subscribe,
     store.getProviders,
@@ -23,17 +25,17 @@ export const SIWEButton: FC = () => {
   }
 
   if (eip6963Providers.length === 1) {
-    return <SIWELogin eip6963Provider={eip6963Providers[0]} />
+    return <Erc4361Login eip6963Provider={eip6963Providers[0]} />
   }
 
   return (
     <>
       <button
-        className="btn btn-soft btn-accent"
-        popoverTarget="popover-siwe-login"
+        className={className}
+        popoverTarget="popover-web3-login"
         style={
           {
-            anchorName: '--popover-siwe-login-anchor',
+            anchorName: '--popover-web3-login-anchor',
           } as React.CSSProperties
         }
       >
@@ -43,16 +45,16 @@ export const SIWEButton: FC = () => {
       <ul
         className="dropdown menu rounded-box bg-base-100 w-52 shadow-sm"
         popover="auto"
-        id="popover-siwe-login"
+        id="popover-web3-login"
         style={
           {
-            positionAnchor: '--popover-siwe-login-anchor',
+            positionAnchor: '--popover-web3-login-anchor',
           } as React.CSSProperties
         }
       >
         {eip6963Providers.map((provider) => (
           <li key={provider.info.uuid}>
-            <SIWELogin eip6963Provider={provider} />
+            <Erc4361Login eip6963Provider={provider} className={className} />
           </li>
         ))}
       </ul>
@@ -60,9 +62,10 @@ export const SIWEButton: FC = () => {
   )
 }
 
-const SIWELogin: FC<{ eip6963Provider: EIP6963ProviderDetail }> = ({
-  eip6963Provider,
-}) => {
+const Erc4361Login: FC<{
+  eip6963Provider: EIP6963ProviderDetail
+  className?: string
+}> = ({ eip6963Provider, className }) => {
   const provider = new BrowserProvider(eip6963Provider.provider)
 
   const handleClick = useCallback(async () => {
@@ -108,7 +111,7 @@ const SIWELogin: FC<{ eip6963Provider: EIP6963ProviderDetail }> = ({
   }
 
   return (
-    <button className="btn btn-soft btn-accent" onClick={handleClick}>
+    <button className={className} onClick={handleClick}>
       {eip6963Provider.info.name} (Web3)
     </button>
   )

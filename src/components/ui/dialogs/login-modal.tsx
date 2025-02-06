@@ -7,17 +7,13 @@ import {
   useAuthenticationProviders,
 } from '@/lib/api'
 
-import { OAuthButton } from './oauth-button'
-import { SIWEButton } from './siwe-button'
-import { WebAuthnButton } from './webauthn-button'
+import {
+  Erc4361LoginButton,
+  OAuthLoginButton,
+  WebAuthnLoginButton,
+} from '../buttons'
 
-declare global {
-  interface Window {
-    ethereum?: any
-  }
-}
-
-const LoginModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+export const LoginModal: FC<{ onClose: () => void }> = ({ onClose }) => {
   const dialogRef = useRef<HTMLDialogElement>(null)
 
   useEffect(() => {
@@ -73,19 +69,22 @@ const LoginProviderButton: FC<{
 }> = ({ provider }) => {
   if (provider.type == 'OAuth') {
     return (
-      <OAuthButton
-        id={provider.name}
-        displayName={`${provider.display_name} (OAuth)`}
-      />
+      <OAuthLoginButton id={provider.name} className="btn btn-soft btn-primary">
+        `${provider.display_name} (OAuth)`
+      </OAuthLoginButton>
     )
   }
 
   if (provider.type == 'WebAuthn' && window.navigator.credentials) {
-    return <WebAuthnButton displayName={`${provider.display_name} (Passkey)`} />
+    return (
+      <WebAuthnLoginButton className="btn btn-soft btn-secondary">
+        `${provider.display_name} (Passkey)`
+      </WebAuthnLoginButton>
+    )
   }
 
   if (provider.type == 'Erc4361') {
-    return <SIWEButton />
+    return <Erc4361LoginButton className="btn btn-soft btn-accent" />
   }
 
   return (
@@ -94,5 +93,3 @@ const LoginProviderButton: FC<{
     </button>
   )
 }
-
-export default LoginModal

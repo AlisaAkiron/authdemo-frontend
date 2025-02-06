@@ -1,10 +1,9 @@
 'use client'
 
-import { FC, useCallback, useState } from 'react'
+import { FC, useState } from 'react'
 
-import { UserInfoModal } from '@/components/ui'
-import LoginModal from '@/components/ui/LoginModal'
-import { passkeyRegister } from '@/lib/utils'
+import { WebAuthnRegisterButton } from '@/components/ui/buttons'
+import { LoginModal, UserInfoModal } from '@/components/ui/dialogs'
 
 const Home: FC = () => {
   const [showLoginModal, setShowLoginModal] = useState(false)
@@ -12,10 +11,6 @@ const Home: FC = () => {
 
   const handleOpenLoginModal = () => setShowLoginModal(true)
   const handleOpenUserInfo = () => setShowUserInfoModal(true)
-
-  const handlePasskeyRegister = useCallback(async () => {
-    await passkeyRegister()
-  }, [])
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -26,9 +21,9 @@ const Home: FC = () => {
             <button className="btn btn-primary" onClick={handleOpenLoginModal}>
               Login
             </button>
-            <button className="btn btn-primary" onClick={handlePasskeyRegister}>
+            <WebAuthnRegisterButton className="btn btn-primary">
               Register Passkey
-            </button>
+            </WebAuthnRegisterButton>
             <button className="btn btn-primary" onClick={handleOpenUserInfo}>
               User Info
             </button>
