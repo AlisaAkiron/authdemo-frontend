@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, Ref, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 
 import {
   AuthenticationProviderDto,
@@ -17,9 +17,25 @@ declare global {
   }
 }
 
-const LoginModal: FC<{ ref: Ref<HTMLDialogElement> }> = ({ ref }) => {
+const LoginModal: FC<{ onClose: () => void }> = ({ onClose }) => {
+  const dialogRef = useRef<HTMLDialogElement>(null)
+
+  useEffect(() => {
+    dialogRef.current?.showModal()
+  }, [])
+
+  const handleClose = () => {
+    dialogRef.current?.close()
+    onClose()
+  }
+
   return (
-    <dialog id="login-modal" className="modal" ref={ref}>
+    <dialog
+      id="login-modal"
+      className="modal"
+      ref={dialogRef}
+      onClose={handleClose}
+    >
       <div className="modal-box">
         <form method="dialog">
           <button className="btn btn-sm btn-circle btn-ghost absolute top-2 right-2">

@@ -1,29 +1,17 @@
 'use client'
 
-import { FC, useCallback, useRef } from 'react'
+import { FC, useCallback, useState } from 'react'
 
+import { UserInfoModal } from '@/components/ui'
 import LoginModal from '@/components/ui/LoginModal'
-import { useUserInfo } from '@/lib/api'
 import { passkeyRegister } from '@/lib/utils'
 
 const Home: FC = () => {
-  const modalRef = useRef<HTMLDialogElement>(null)
+  const [showLoginModal, setShowLoginModal] = useState(false)
+  const [showUserInfoModal, setShowUserInfoModal] = useState(false)
 
-  const handleOpenLoginModal = useCallback(() => {
-    modalRef.current?.showModal()
-  }, [])
-
-  const handleGetUserInfo = useCallback(async () => {
-    const { data, error } = await useUserInfo()
-
-    if (error) {
-      console.error(error)
-    }
-
-    if (data) {
-      console.log(data)
-    }
-  }, [])
+  const handleOpenLoginModal = () => setShowLoginModal(true)
+  const handleOpenUserInfo = () => setShowUserInfoModal(true)
 
   const handlePasskeyRegister = useCallback(async () => {
     await passkeyRegister()
@@ -34,19 +22,23 @@ const Home: FC = () => {
       <div className="hero-content text-center">
         <div className="max-w-md">
           <h1 className="text-5xl font-bold">Authentication Demo</h1>
-          <div className="grid grid-cols-2 gap-4 py-6">
+          <div className="grid grid-cols-3 gap-4 py-6">
             <button className="btn btn-primary" onClick={handleOpenLoginModal}>
               Login
             </button>
             <button className="btn btn-primary" onClick={handlePasskeyRegister}>
               Register Passkey
             </button>
-            <button className="btn btn-primary">Protected Page</button>
-            <button className="btn btn-primary" onClick={handleGetUserInfo}>
-              User Info (Bearer)
+            <button className="btn btn-primary" onClick={handleOpenUserInfo}>
+              User Info
             </button>
           </div>
-          <LoginModal ref={modalRef} />
+          {showLoginModal && (
+            <LoginModal onClose={() => setShowLoginModal(false)} />
+          )}
+          {showUserInfoModal && (
+            <UserInfoModal onClose={() => setShowUserInfoModal(false)} />
+          )}
         </div>
       </div>
     </div>
