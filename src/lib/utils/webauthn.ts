@@ -29,7 +29,8 @@ export const passkeyLogin = async () => {
 
   if (assertionResp !== null) {
     const { data: assertionResponse, error: assertionError } =
-      await useAssertionResponse(assertionChallengeId, {
+      await useAssertionResponse({
+        challenge_id: assertionChallengeId,
         assertion_response: assertionResp,
       } as WebAuthnAssertionVerifyDto)
 
@@ -46,14 +47,15 @@ export const passkeyLogin = async () => {
 
 export const passkeyRegister = async () => {
   const { data: attestationData } = await useAttestation()
-  const attestationChallengeId = attestationData!.attestation_id
+  const attestationChallengeId = attestationData!.challenge_id
   const attestationOptions = attestationData!.options
 
   const attestationResp = await attestation({ publicKey: attestationOptions })
 
   if (attestationResp !== null) {
     const { data: attestationResponse, error: attestationError } =
-      await useAttestationResponse(attestationChallengeId, {
+      await useAttestationResponse({
+        challenge_id: attestationChallengeId,
         attestation_response: attestationResp,
       } as WebAuthnAttestationVerifyDto)
 

@@ -8,7 +8,14 @@ import {
 } from '@/lib/api'
 
 import { OAuthButton } from './oauth-button'
+import { SIWEButton } from './siwe-button'
 import { WebAuthnButton } from './webauthn-button'
+
+declare global {
+  interface Window {
+    ethereum?: any
+  }
+}
 
 const LoginModal: FC<{ ref: Ref<HTMLDialogElement> }> = ({ ref }) => {
   return (
@@ -57,8 +64,12 @@ const LoginProviderButton: FC<{
     )
   }
 
-  if (provider.type == 'WebAuthn') {
+  if (provider.type == 'WebAuthn' && window.navigator.credentials) {
     return <WebAuthnButton displayName={`${provider.display_name} (Passkey)`} />
+  }
+
+  if (provider.type == 'Erc4361') {
+    return <SIWEButton />
   }
 
   return (

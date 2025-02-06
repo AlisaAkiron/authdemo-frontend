@@ -1,6 +1,8 @@
 import { getApiURL, sendGET, sendPOST } from '../utils'
 import {
   AuthenticationProviderDto,
+  Erc4361ChallengeDto,
+  Erc4361SignatureDto,
   UserTokenDto,
   WebAuthnAssertionDto,
   WebAuthnAssertionVerifyDto,
@@ -28,29 +30,32 @@ export const useUserToken = async () => {
 }
 
 export const useAttestation = async () => {
-  return sendPOST<WebAuthnAttestationDto>('/auth/webauthn/attestation', '')
+  return sendGET<WebAuthnAttestationDto>('/auth/webauthn/attestation')
 }
 
 export const useAssertion = async () => {
-  return sendPOST<WebAuthnAssertionDto>('/auth/webauthn/assertion', '')
+  return sendGET<WebAuthnAssertionDto>('/auth/webauthn/assertion')
 }
 
 export const useAttestationResponse = async (
-  attestationId: string,
   dto: WebAuthnAttestationVerifyDto,
 ) => {
   return sendPOST<UserTokenDto>(
-    `/auth/webauthn/attestation/${attestationId}`,
+    `/auth/webauthn/attestation`,
     JSON.stringify(dto),
   )
 }
 
-export const useAssertionResponse = async (
-  assertionId: string,
-  dto: WebAuthnAssertionVerifyDto,
-) => {
-  return sendPOST<UserTokenDto>(
-    `/auth/webauthn/assertion/${assertionId}`,
-    JSON.stringify(dto),
+export const useAssertionResponse = async (dto: WebAuthnAssertionVerifyDto) => {
+  return sendPOST<UserTokenDto>(`/auth/webauthn/assertion`, JSON.stringify(dto))
+}
+
+export const useErc4361ChallengeMessage = async (address: string) => {
+  return sendGET<Erc4361ChallengeDto>(
+    `/auth/erc4361/challenge?address=${address}`,
   )
+}
+
+export const useErc4361Verification = async (dto: Erc4361SignatureDto) => {
+  return sendPOST<UserTokenDto>('/auth/erc4361/verify', JSON.stringify(dto))
 }
